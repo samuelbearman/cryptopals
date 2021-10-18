@@ -1,0 +1,2 @@
+From_Hex('Auto')
+To_Base64('A-Za-z0-9+/=')
