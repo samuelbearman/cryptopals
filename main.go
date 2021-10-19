@@ -11,10 +11,7 @@ func main() {
 }
 
 func runSet1() {
-	var input string = "49276d206b696c6c696e6720796f757220627261696e206c696b65206120706f69736f6e6f7573206d757368726f6f6d"
-	result, err := set1.HexBase64Convert(input)
-	if err != nil {
-		fmt.Println(err)
-	}
-	fmt.Println(result)
+	var input string = "1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736"
+	answer, _ := set1.GuessXOR(input)
+	fmt.Printf("Best Guess: %s", answer)
 }
