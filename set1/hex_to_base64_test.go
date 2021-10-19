@@ -11,6 +11,6 @@ var output string = "SSdtIGtpbGxpbmcgeW91ciBicmFpbiBsaWtlIGEgcG9pc29ub3VzIG11c2h
 func TestConvert(t *testing.T) {
 	result, _ := Convert(input)
 	if result != output {
-		t.Fatalf("\nResult: %s \n Expected: %s", result, output)
+		t.Fatalf("Result: %s Expected: %s", result, output)
 	}
 }

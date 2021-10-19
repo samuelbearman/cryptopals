@@ -1,12 +1,14 @@
 package set1
 
 import (
-	"fmt"
+	"encoding/base64"
+	"encoding/hex"
 )
 
 func Convert(hexstr string) (string, error) {
-	strByteArr := []byte(hexstr)
-
-	fmt.Println(strByteArr)
-	return "", nil
+	asciiStr, err := hex.DecodeString(hexstr)
+	if err != nil {
+		return "", err
+	}
+	return base64.StdEncoding.EncodeToString((asciiStr)), nil
 }
