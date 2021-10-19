@@ -1,2 +1,9 @@
+
+hex to base64
 From_Hex('Auto')
 To_Base64('A-Za-z0-9+/=')
+
+fixed xor
+From_Hex('Auto')
+XOR({'option':'Hex','string':'686974207468652062756c6c277320657965'},'Standard',false)
+To_Hex('None',0)
