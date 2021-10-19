@@ -8,17 +8,33 @@ import (
 	"strings"
 )
 
+// var vowels = []string{
+// 	"a",
+// 	"e",
+// 	"i",
+// 	"o",
+// 	"u",
+// 	"A",
+// 	"E",
+// 	"I",
+// 	"O",
+// 	"U",
+// }
 var vowels = []string{
-	"a",
 	"e",
-	"i",
+	"t",
+	"a",
 	"o",
-	"u",
-	"A",
+	"i",
+	"n",
+	"s",
 	"E",
-	"I",
+	"T",
+	"A",
 	"O",
-	"U",
+	"I",
+	"N",
+	"S",
 }
 
 func SingleXORBrute(input string) error {
@@ -43,12 +59,12 @@ func GuessXOR(input string) (string, error) {
 		return "", err
 	}
 
-	highestVowelCount := 0
+	highestmatchCount := 0
 	currentAnswer := ""
 
 	for i := 0; i < 255; i++ {
 		result := (stringXOR(string(hexStr), string(i)))
-		vowelCount := 0
+		matchCount := 0
 
 		reg, err := regexp.Compile("[^a-zA-Z0-9]+")
 		if err != nil {
@@ -57,20 +73,14 @@ func GuessXOR(input string) (string, error) {
 		processedString := reg.ReplaceAllString(result, "")
 
 		for x := 0; x < len(vowels); x++ {
-			vowelCount += strings.Count(processedString, vowels[x])
+			matchCount += strings.Count(processedString, vowels[x])
 		}
 
-		if vowelCount >= highestVowelCount {
-			highestVowelCount = vowelCount
+		if matchCount >= highestmatchCount {
+			highestmatchCount = matchCount
 			currentAnswer = result
 			possibleAnswers = append(possibleAnswers, result)
 		}
-	}
-
-	fmt.Println("Possible Answers")
-
-	for _, element := range possibleAnswers {
-		fmt.Println(element)
 	}
 
 	return currentAnswer, nil
