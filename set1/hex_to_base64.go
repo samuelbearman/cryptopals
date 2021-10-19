@@ -5,7 +5,7 @@ import (
 	"encoding/hex"
 )
 
-func Convert(hexstr string) (string, error) {
+func HexBase64Convert(hexstr string) (string, error) {
 	asciiStr, err := hex.DecodeString(hexstr)
 	if err != nil {
 		return "", err
