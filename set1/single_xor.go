@@ -72,9 +72,10 @@ func GuessXOR(input string) (string, error) {
 		}
 		processedString := reg.ReplaceAllString(result, "")
 
-		for x := 0; x < len(vowels); x++ {
-			matchCount += strings.Count(processedString, vowels[x])
-		}
+		// for x := 0; x < len(vowels); x++ {
+		// 	matchCount += strings.Count(processedString, vowels[x])
+		// }
+		matchCount = GetWordScore(processedString)
 
 		if matchCount >= highestmatchCount {
 			highestmatchCount = matchCount
@@ -84,4 +85,13 @@ func GuessXOR(input string) (string, error) {
 	}
 
 	return currentAnswer, nil
+}
+
+func GetWordScore(word string) int {
+	matchCount := 0
+	for x := 0; x < len(vowels); x++ {
+		matchCount += strings.Count(word, vowels[x])
+	}
+
+	return matchCount
 }

@@ -10,3 +10,7 @@ To_Hex('None',0)
 
 From_Hex('Auto')
 XOR_Brute_Force(1,256,0,'Standard',false,true,false,'')
+
+Fork('\\n','\\n----------------------------------------\\n',false)
+From_Hex('Auto')
+XOR_Brute_Force(1,265,0,'Standard',false,true,false,'')
