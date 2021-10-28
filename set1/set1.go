@@ -1,6 +1,7 @@
 package set1
 
 import (
+	"encoding/base64"
 	"encoding/hex"
 	"fmt"
 	"log"
@@ -8,18 +9,6 @@ import (
 	"strings"
 )
 
-// var vowels = []string{
-// 	"a",
-// 	"e",
-// 	"i",
-// 	"o",
-// 	"u",
-// 	"A",
-// 	"E",
-// 	"I",
-// 	"O",
-// 	"U",
-// }
 var vowels = []string{
 	"e",
 	"t",
@@ -35,6 +24,30 @@ var vowels = []string{
 	"I",
 	"N",
 	"S",
+}
+
+func RepeatingKeyXOR(input, key []byte) []byte {
+	eb := make([]byte, len(input))
+
+	for i := 0; i < len(input); i++ {
+		eb[i] = input[i] ^ key[i%len(key)]
+		fmt.Printf("%x, %x, %x\n", input[i], key[i%len(key)], eb[i])
+	}
+	return eb
+}
+
+func Encode(plainText []byte) []byte {
+	ret := make([]byte, hex.EncodedLen(len(plainText)))
+	hex.Encode(ret, plainText)
+	return ret
+}
+
+func HexBase64Convert(hexstr string) (string, error) {
+	asciiStr, err := hex.DecodeString(hexstr)
+	if err != nil {
+		return "", err
+	}
+	return base64.StdEncoding.EncodeToString((asciiStr)), nil
 }
 
 func SingleXORBrute(input string) error {
@@ -94,4 +107,22 @@ func GetWordScore(word string) int {
 	}
 
 	return matchCount
+}
+
+func FixedXORConvert(buf1 string, buf2 string) (string, error) {
+	hexStr, err := hex.DecodeString(buf1)
+	if err != nil {
+		return "", err
+	}
+
+	result := hex.EncodeToString([]byte(stringXOR(string(hexStr), buf2)))
+	return result, nil
+}
+
+func stringXOR(value string, key string) (output string) {
+	for i := 0; i < len(value); i++ {
+		output += string(value[i] ^ key[i%len(key)])
+	}
+
+	return output
 }
