@@ -7,6 +7,7 @@ import (
 	"errors"
 	"fmt"
 	"log"
+	"math/bits"
 	"os"
 	"regexp"
 	"strings"
@@ -142,7 +143,9 @@ func Challenge5_RepeatingKeyXOR(input, key []byte) []byte {
 }
 
 func Challenge6_BreakRepeatingKeyXOR() {
+	for i := 2; i < 41; i++ {
 
+	}
 }
 
 func CalculateEditDistance(str1 string, str2 string) (int, error) {
@@ -155,13 +158,10 @@ func CalculateEditDistance(str1 string, str2 string) (int, error) {
 	bytes1 := []byte(str1)
 	bytes2 := []byte(str2)
 
-	for x := 0; x < len(bytes1); x++ {
-		firstByte := bytes1[x]
-		secondByte := bytes2[x]
-
-		diff := diff(firstByte, secondByte)
-		runningEditDistance += diff
-		fmt.Printf("Distance: %d\n", diff)
+	for i := range bytes1 {
+		if bytes1[i] != bytes2[i] {
+			runningEditDistance += bits.OnesCount64(uint64(bytes1[i] ^ bytes2[i]))
+		}
 	}
 
 	return runningEditDistance, nil
