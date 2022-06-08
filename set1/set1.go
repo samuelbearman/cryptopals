@@ -79,9 +79,6 @@ func Challenge3_GuessXOR(input string) (string, error) {
 		}
 		processedString := reg.ReplaceAllString(result, "")
 
-		// for x := 0; x < len(vowels); x++ {
-		// 	matchCount += strings.Count(processedString, vowels[x])
-		// }
 		matchCount = getWordScore(processedString)
 
 		if matchCount >= highestmatchCount {
@@ -124,23 +121,6 @@ func Challenge4_DetectXORFromFile(path string) string {
 	return bestGuess
 }
 
-func SingleXORBrute(input string) error {
-	hexBytes, err := hex.DecodeString(input)
-	if err != nil {
-		return err
-	}
-
-	hexStr := string(hexBytes)
-
-	for i := 65; i < 123; i++ {
-		letter := fmt.Sprint(i)
-		output := stringXOR(hexStr, letter)
-		fmt.Printf("Letter: %s\n Output: %s \n\n ", letter, output)
-	}
-
-	return nil
-}
-
 func Challenge5_RepeatingKeyXOR(input, key []byte) []byte {
 	eb := make([]byte, len(input))
 
@@ -149,13 +129,6 @@ func Challenge5_RepeatingKeyXOR(input, key []byte) []byte {
 		// fmt.Printf("%x, %x, %x\n", input[i], key[i%len(key)], eb[i])
 	}
 	return eb
-}
-
-func diff(a, b byte) int {
-	if a < b {
-		return int(b - a)
-	}
-	return int(a - b)
 }
 
 func Encode(plainText []byte) []byte {
