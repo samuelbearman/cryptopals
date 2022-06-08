@@ -1,13 +1,11 @@
-package set1
+package set_one
 
 import (
 	"bufio"
 	"encoding/base64"
 	"encoding/hex"
-	"errors"
 	"fmt"
 	"log"
-	"math/bits"
 	"os"
 	"regexp"
 	"strings"
@@ -39,12 +37,23 @@ func Challenge1_HexBase64Convert(hexstr string) (string, error) {
 }
 
 func Challenge2_FixedXORConvert(buf1 string, buf2 string) (string, error) {
-	hexStr, err := hex.DecodeString(buf1)
+	hexStr1, err := hex.DecodeString(buf1)
 	if err != nil {
 		return "", err
 	}
 
-	result := hex.EncodeToString([]byte(stringXOR(string(hexStr), buf2)))
+	hexStr2, err := hex.DecodeString(buf2)
+	if err != nil {
+		return "", err
+	}
+
+	out := make([]byte, len(hexStr1))
+	for i := range hexStr1 {
+		out[i] = hexStr1[i] ^ hexStr2[i]
+	}
+
+	result := hex.EncodeToString(out)
+
 	return result, nil
 }
 
@@ -61,7 +70,7 @@ func Challenge3_GuessXOR(input string) (string, error) {
 	currentAnswer := ""
 
 	for i := 0; i < 255; i++ {
-		result := (stringXOR(string(hexStr), string(i)))
+		result := (stringXOR(string(hexStr), fmt.Sprint(i)))
 		matchCount := 0
 
 		reg, err := regexp.Compile("[^a-zA-Z0-9]+")
@@ -124,7 +133,7 @@ func SingleXORBrute(input string) error {
 	hexStr := string(hexBytes)
 
 	for i := 65; i < 123; i++ {
-		letter := string(i)
+		letter := fmt.Sprint(i)
 		output := stringXOR(hexStr, letter)
 		fmt.Printf("Letter: %s\n Output: %s \n\n ", letter, output)
 	}
@@ -140,31 +149,6 @@ func Challenge5_RepeatingKeyXOR(input, key []byte) []byte {
 		// fmt.Printf("%x, %x, %x\n", input[i], key[i%len(key)], eb[i])
 	}
 	return eb
-}
-
-func Challenge6_BreakRepeatingKeyXOR() {
-	for i := 2; i < 41; i++ {
-
-	}
-}
-
-func CalculateEditDistance(str1 string, str2 string) (int, error) {
-	if len(str1) != len(str2) {
-		return 0, errors.New("Length of strings do not match")
-	}
-
-	runningEditDistance := 0
-
-	bytes1 := []byte(str1)
-	bytes2 := []byte(str2)
-
-	for i := range bytes1 {
-		if bytes1[i] != bytes2[i] {
-			runningEditDistance += bits.OnesCount64(uint64(bytes1[i] ^ bytes2[i]))
-		}
-	}
-
-	return runningEditDistance, nil
 }
 
 func diff(a, b byte) int {
