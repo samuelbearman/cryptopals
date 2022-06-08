@@ -4,8 +4,9 @@ import (
 	"bufio"
 	"encoding/base64"
 	"encoding/hex"
-	"fmt"
+	"errors"
 	"log"
+	"math/bits"
 	"os"
 	"regexp"
 	"strings"
@@ -70,7 +71,7 @@ func Challenge3_GuessXOR(input string) (string, error) {
 	currentAnswer := ""
 
 	for i := 0; i < 255; i++ {
-		result := (stringXOR(string(hexStr), fmt.Sprint(i)))
+		result := (stringXOR(string(hexStr), string(rune(i))))
 		matchCount := 0
 
 		reg, err := regexp.Compile("[^a-zA-Z0-9]+")
@@ -79,6 +80,9 @@ func Challenge3_GuessXOR(input string) (string, error) {
 		}
 		processedString := reg.ReplaceAllString(result, "")
 
+		// for x := 0; x < len(vowels); x++ {
+		// 	matchCount += strings.Count(processedString, vowels[x])
+		// }
 		matchCount = getWordScore(processedString)
 
 		if matchCount >= highestmatchCount {
@@ -129,6 +133,25 @@ func Challenge5_RepeatingKeyXOR(input, key []byte) []byte {
 		// fmt.Printf("%x, %x, %x\n", input[i], key[i%len(key)], eb[i])
 	}
 	return eb
+}
+
+func CalculateEditDistance(str1 string, str2 string) (int, error) {
+	if len(str1) != len(str2) {
+		return 0, errors.New("Length of strings do not match")
+	}
+
+	runningEditDistance := 0
+
+	bytes1 := []byte(str1)
+	bytes2 := []byte(str2)
+
+	for i := range bytes1 {
+		if bytes1[i] != bytes2[i] {
+			runningEditDistance += bits.OnesCount64(uint64(bytes1[i] ^ bytes2[i]))
+		}
+	}
+
+	return runningEditDistance, nil
 }
 
 func Encode(plainText []byte) []byte {

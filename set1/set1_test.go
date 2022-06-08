@@ -50,3 +50,15 @@ func Test_Challenge5_RepeatingKeyXOR(t *testing.T) {
 	}
 
 }
+
+func Test_Challenge6_HammingDistance(t *testing.T) {
+	input1 := "this is a test"
+	input2 := "wokka wokka!!!"
+
+	expected := 37
+	result, _ := CalculateEditDistance(input1, input2)
+
+	if result != expected {
+		t.Fatalf("Result: %d Expected: %d", result, expected)
+	}
+}
